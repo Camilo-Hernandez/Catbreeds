@@ -8,4 +8,5 @@ La aplicación contiene lo siguiente:
 - Vista de detalle
 - Vista de favoritos
 - Pruebas unitarias, pruebas de integración, pruebas de flujo de usuario
-- Consumo de API con Retrofit 2.
+- Consumo de API con Retrofit 2
+- Últimas versiones estables de librerías
