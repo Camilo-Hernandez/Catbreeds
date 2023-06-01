@@ -1,5 +1,4 @@
-package com.camihruiz24.catbreeds.domain
-
+package com.camihruiz24.catbreeds.feature_list.domain
 
 import com.google.gson.annotations.SerializedName
 

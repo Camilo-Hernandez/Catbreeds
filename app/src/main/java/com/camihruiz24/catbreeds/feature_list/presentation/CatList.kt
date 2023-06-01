@@ -1,4 +1,4 @@
-package com.camihruiz24.catbreeds.presentation
+package com.camihruiz24.catbreeds.feature_list.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,13 +27,43 @@ import com.camihruiz24.catbreeds.R
 @Composable
 fun CatList() { //cats: List<Cat>
 
+    /*
+    val catsState = CatsState()
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val uiState by produceState<CatsState>(
+        initialValue = catsState,
+        key1 = lifecycle,
+        key2 = catsListViewModel
+    ){
+        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED){
+            catsListViewModel.state.collect{
+                value = it
+            }
+        }
+    }
+
+    if (!uiState.isLoading){
+        Column(
+            Modifier.padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(text = "Cat Breeds", style = MaterialTheme.typography.titleLarge)
+            LazyColumn {
+                items(items = uiState.cats) { cat ->
+                    CatCard(cat, Modifier.clickable { navigationController.navigate("CatDetail") })
+                }
+            }
+        }
+    }
+    */
+
     Column(
         Modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text = "Catbreeds", style = MaterialTheme.typography.titleLarge)
         LazyColumn {
-            items(5) { cat ->
+            items(5) {
                 CatCard()
             }
         }
