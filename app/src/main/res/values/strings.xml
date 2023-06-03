@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Catbreeds</string>
+    <string name="app_name">CatBreeds</string>
+    <string name="error_message">No se pudieron cargar los datos</string>
 </resources>
