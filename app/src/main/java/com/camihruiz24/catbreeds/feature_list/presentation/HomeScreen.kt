@@ -26,41 +26,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.camihruiz24.catbreeds.R
-import com.camihruiz24.catbreeds.feature_list.domain.Cat
+import com.camihruiz24.catbreeds.feature_list.data.Cat
 
 @Composable
 fun HomeScreen(catListUiState: CatListUiState) { //cats: List<Cat>
-
-    /*
-    FORMA 2
-    val catsState = CatsState()
-    val lifecycle = LocalLifecycleOwner.current.lifecycle
-    val uiState by produceState<CatsState>(
-        initialValue = catsState,
-        key1 = lifecycle,
-        key2 = catsListViewModel
-    ){
-        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED){
-            catsListViewModel.state.collect{
-                value = it
-            }
-        }
-    }
-
-    if (!uiState.isLoading){
-        Column(
-            Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(text = "Cat Breeds", style = MaterialTheme.typography.titleLarge)
-            LazyColumn {
-                items(items = uiState.cats) { cat ->
-                    CatCard(cat, Modifier.clickable { navigationController.navigate("CatDetail") })
-                }
-            }
-        }
-    }
-    */
 
     when (catListUiState) {
         is CatListUiState.Success -> CatList(catsList = catListUiState.catsList)
@@ -101,26 +70,26 @@ fun CatList(modifier: Modifier = Modifier, catsList: List<Cat>) {
             Text(text = "Catbreeds", style = MaterialTheme.typography.titleLarge)
         }
         items(catsList){cat ->
-            CatCard(cat)
+            CatCard(cat = cat)
         }
     }
 }
 
 
 @Composable
-fun CatCard(cat: Cat) { // cat: Cat
+fun CatCard(modifier : Modifier = Modifier, cat: Cat) { // cat: Cat
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
-            Modifier.padding(16.dp),
+            modifier.padding(16.dp),
         ) {
             Row() {
                 Text(
-                    text = "Albino", //cat.name,
+                    text = cat.name,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.weight(2f)
                 )
@@ -133,11 +102,11 @@ fun CatCard(cat: Cat) { // cat: Cat
             }
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.portada)
+                    .data("https://cdn2.thecatapi.com/images/${cat.imageId}.jpg")
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.bg_image_placeholder),
-                contentDescription = "Movie cover",
+                contentDescription = stringResource(R.string.cat_cover),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -146,14 +115,14 @@ fun CatCard(cat: Cat) { // cat: Cat
             )
             Row {
                 Text(
-                    text = "País de origen: Island", // ${cat.origin}",
+                    text = "País de origen: ${cat.origin}",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(2f)
                 )
                 Text(
-                    text = "Inteligencia", // "${cat.feature}",
+                    text = cat.temperament.split(", ").random(),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(8.dp)

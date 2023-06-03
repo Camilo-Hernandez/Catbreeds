@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.camihruiz24.catbreeds.feature_list.data.CatsApiClient
-import com.camihruiz24.catbreeds.feature_list.domain.Cat
+import com.camihruiz24.catbreeds.feature_list.data.Cat
+import com.camihruiz24.catbreeds.feature_list.data.CatsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +20,7 @@ sealed interface CatListUiState {
 
 @HiltViewModel
 class CatListViewModel @Inject constructor(
-    private val catsApiClient: CatsApiClient,
+    catsRepository: CatsRepository
 ) : ViewModel() {
     /*
         FORMA 2
@@ -46,20 +46,19 @@ class CatListViewModel @Inject constructor(
         */
 
         viewModelScope.launch {
-            val resultadoPeticion = "Resultado de petición"
+            val requestResult = "Resultado de petición"
             uiState = try {
 
-                Log.i(resultadoPeticion, "Iniciando")
+                Log.i(requestResult, "Iniciando")
 
-                val catsList = catsApiClient.getCatBreeds()
+                val catsList = catsRepository.getCatBreeds()
 
-
-                Log.i(resultadoPeticion, "Éxito: $catsList")
+                Log.i(requestResult, "Éxito: $catsList")
 
                 CatListUiState.Success(catsList = catsList)
 
             } catch (e: Exception) {
-                Log.i(resultadoPeticion, "Fallido")
+                Log.i(requestResult, "Fallido")
 
                 CatListUiState.Error
             }

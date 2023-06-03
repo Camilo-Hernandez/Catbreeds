@@ -1,4 +1,4 @@
-package com.camihruiz24.catbreeds.feature_list.domain
+package com.camihruiz24.catbreeds.feature_list.data
 
 import com.google.gson.annotations.SerializedName
 
@@ -56,7 +56,7 @@ data class Cat(
     @SerializedName("rare")
     val rare: Int = 0,
     @SerializedName("reference_image_id")
-    val referenceImageId: String? = null,
+    val imageId: String?,
     @SerializedName("rex")
     val rex: Int = 0,
     @SerializedName("shedding_level")
