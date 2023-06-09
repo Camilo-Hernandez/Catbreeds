@@ -102,6 +102,7 @@ fun CatCard(modifier : Modifier = Modifier, cat: Cat) { // cat: Cat
             }
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
+                    // TODO: Eliminar la cadena quemada. Investigar si con retrofit puedo manejar este link.
                     .data("https://cdn2.thecatapi.com/images/${cat.imageId}.jpg")
                     .crossfade(true)
                     .build(),

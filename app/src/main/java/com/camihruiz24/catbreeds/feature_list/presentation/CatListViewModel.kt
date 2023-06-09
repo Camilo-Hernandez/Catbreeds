@@ -12,7 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed interface CatListUiState {
+sealed interface CatListUiState { // TODO: mirar el <out T>
     data class Success(val catsList: List<Cat>) : CatListUiState
     object Error : CatListUiState
     object Loading : CatListUiState
@@ -22,29 +22,10 @@ sealed interface CatListUiState {
 class CatListViewModel @Inject constructor(
     catsRepository: CatsRepository
 ) : ViewModel() {
-    /*
-        FORMA 2
-        private val _uiState: MutableStateFlow<CatListUiState> = MutableStateFlow(CatListUiState())
-        val uiState = _uiState.asStateFlow()
-        */
-
     var uiState: CatListUiState by mutableStateOf(CatListUiState.Loading)
         private set
 
     init {
-        /**
-        // FORMA 2
-    viewModelScope.launch{
-        // Poner a cargar la vista
-        _uiState.update {
-            it.copy(
-                isLoading = true,
-            )
-        }
-
-    }
-        */
-
         viewModelScope.launch {
             val requestResult = "Resultado de petición"
             uiState = try {
@@ -66,10 +47,3 @@ class CatListViewModel @Inject constructor(
         }
     }
 }
-/**
-// FORMA 2
-data class CatListUiState(
-    val isLoading: Boolean = false,
-    val catsList: List<Cat> = emptyList(),
-)
-*/
