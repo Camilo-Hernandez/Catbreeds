@@ -8,14 +8,13 @@ import javax.inject.Inject
  * (enlace)
  */
 
-class CatsRepositoryImpl @Inject constructor(
-    private val catsApiService: CatsApiService,
-    ) : CatsRepository {
-    override suspend fun getCatBreeds(): List<Cat> = catsApiService.getCatBreeds()
+class CatBreedsRepositoryImpl @Inject constructor(
+    private val catBreedsService: CatBreedsService,
+    ) : CatBreedsRepository {
+    override suspend fun getCatBreeds(): List<Cat> = catBreedsService.getCatBreeds()
 
 }
 
-fun interface CatsRepository {
+fun interface CatBreedsRepository {
     suspend fun getCatBreeds() : List<Cat>
-
 }

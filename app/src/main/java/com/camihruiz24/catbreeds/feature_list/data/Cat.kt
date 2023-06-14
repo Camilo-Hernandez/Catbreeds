@@ -56,7 +56,7 @@ data class Cat(
     @SerializedName("rare")
     val rare: Int = 0,
     @SerializedName("reference_image_id")
-    val imageId: String?,
+    val imageId : String?,
     @SerializedName("rex")
     val rex: Int = 0,
     @SerializedName("shedding_level")
