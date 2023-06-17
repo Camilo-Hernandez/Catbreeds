@@ -1,4 +1,4 @@
-package com.camihruiz24.catbreeds
+package com.camihruiz24.catbreeds.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,13 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.camihruiz24.catbreeds.core.AppNavHost
-import com.camihruiz24.catbreeds.ui.theme.CatbreedsTheme
+import com.camihruiz24.catbreeds.core.ui.theme.CatbreedsTheme
+import com.camihruiz24.catbreeds.ui.navigation.MainNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -23,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavHost()
+                    MainNavigation()
                 }
             }
         }

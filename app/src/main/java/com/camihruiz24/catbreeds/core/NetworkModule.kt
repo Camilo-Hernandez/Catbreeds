@@ -1,6 +1,6 @@
 package com.camihruiz24.catbreeds.core
 
-import com.camihruiz24.catbreeds.feature_list.data.CatBreedsService
+import com.camihruiz24.catbreeds.data.CatBreedsClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,7 +33,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCatBreedsApiClient(retrofit: Retrofit) : CatBreedsService = retrofit.create(CatBreedsService::class.java)
+    fun provideCatBreedsApiClient(retrofit: Retrofit) : CatBreedsClient = retrofit.create(
+        CatBreedsClient::class.java)
 
 
 }

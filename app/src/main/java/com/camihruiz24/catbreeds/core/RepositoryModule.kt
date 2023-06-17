@@ -1,7 +1,7 @@
 package com.camihruiz24.catbreeds.core
 
-import com.camihruiz24.catbreeds.feature_list.data.CatBreedsRepository
-import com.camihruiz24.catbreeds.feature_list.data.CatBreedsRepositoryImpl
+import com.camihruiz24.catbreeds.data.CatBreedsRepository
+import com.camihruiz24.catbreeds.data.CatBreedsRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

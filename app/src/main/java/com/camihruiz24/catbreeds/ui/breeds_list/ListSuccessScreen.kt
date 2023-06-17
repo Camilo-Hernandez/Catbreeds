@@ -1,4 +1,4 @@
-package com.camihruiz24.catbreeds.feature_list.presentation
+package com.camihruiz24.catbreeds.ui.breeds_list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -24,34 +24,45 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.camihruiz24.catbreeds.R
-import com.camihruiz24.catbreeds.feature_list.data.Cat
+import com.camihruiz24.catbreeds.data.CatBreed
 
 @Composable
-fun CatBreedsListScreen(
+fun ListSuccessScreen(
     modifier: Modifier = Modifier,
-    catsList: List<Cat>,
-    onNavigateToCatDetail: () -> Unit
+    catBreedsList: List<CatBreed>,
+    onNavigateToDetail: (CatBreed) -> Unit,
 ) {
     LazyColumn(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         item {
-            Text(text = "CatBreeds", style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = "CatBreeds",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = modifier.padding(vertical = 8.dp)
+            )
         }
-        items(catsList){cat ->
-            CatCard(cat = cat, onNavigateToCatDetail = onNavigateToCatDetail)
+        items(catBreedsList) { catBreed ->
+            CatBreedCard(
+                catBreed = catBreed,
+                onNavigateToDetail = { onNavigateToDetail(catBreed) }
+            )
         }
     }
 }
 
 @Composable
-fun CatCard(modifier: Modifier = Modifier, cat: Cat, onNavigateToCatDetail: () -> Unit) { // cat: Cat
+fun CatBreedCard(
+    modifier: Modifier = Modifier,
+    catBreed: CatBreed,
+    onNavigateToDetail: () -> Unit,
+) { // cat: Cat
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onNavigateToCatDetail() },
+            .clickable(onClick = onNavigateToDetail),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
@@ -59,7 +70,7 @@ fun CatCard(modifier: Modifier = Modifier, cat: Cat, onNavigateToCatDetail: () -
         ) {
             Row {
                 Text(
-                    text = cat.name,
+                    text = catBreed.name,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.weight(2f)
                 )
@@ -74,8 +85,8 @@ fun CatCard(modifier: Modifier = Modifier, cat: Cat, onNavigateToCatDetail: () -
                 model = ImageRequest.Builder(LocalContext.current)
                     // TODO: Eliminar la cadena quemada. Investigar si con retrofit puedo manejar este link.
                     .data(
-                        cat.imageId?.let {
-                            if (it.isNotEmpty()) "https://cdn2.thecatapi.com/images/${cat.imageId}.jpg"
+                        catBreed.imageId?.let {
+                            if (it.isNotEmpty()) "https://cdn2.thecatapi.com/images/${catBreed.imageId}.jpg"
                             else R.mipmap.cat_icon
                         }
                     )
@@ -91,14 +102,14 @@ fun CatCard(modifier: Modifier = Modifier, cat: Cat, onNavigateToCatDetail: () -
             )
             Row {
                 Text(
-                    text = "País de origen: ${cat.origin}",
+                    text = "País de origen: ${catBreed.origin}",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(2f)
                 )
                 Text(
-                    text = cat.temperament.split(", ").random(),
+                    text = catBreed.attributes.split(", ").random(),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(8.dp)

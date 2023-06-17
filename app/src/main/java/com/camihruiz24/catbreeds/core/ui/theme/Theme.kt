@@ -1,4 +1,4 @@
-package com.camihruiz24.catbreeds.ui.theme
+package com.camihruiz24.catbreeds.core.ui.theme
 
 import android.app.Activity
 import android.os.Build
