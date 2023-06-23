@@ -2,15 +2,15 @@ package com.camihruiz24.catbreeds.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.camihruiz24.catbreeds.ui.breed_detail.CatBreedDetailScreen
 import com.camihruiz24.catbreeds.ui.breeds_list.ListScreen
-import com.camihruiz24.catbreeds.ui.breeds_list.ListViewModel
+import com.camihruiz24.catbreeds.ui.favorites.FavoritesList
+import com.camihruiz24.catbreeds.ui.favorites.fixedFavorites
 
 @Composable
 fun MainNavigation(
@@ -18,6 +18,7 @@ fun MainNavigation(
 ) {
     val startDestination: String = Route.ListScreen.route
     val navController: NavHostController = rememberNavController()
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -42,7 +43,17 @@ fun MainNavigation(
             route = Route.Detail.baseRoute + "?itemId={itemId}",
             arguments = Route.Detail.arguments
         ) {
-            CatBreedDetailScreen()
+            CatBreedDetailScreen(
+                onAddToFavorites = {
+                    navController.navigate(Route.Favorites.route)
+                }
+            )
+        }
+        composable(
+            route = Route.Favorites.baseRoute,
+        ){
+            FavoritesList(favorites = fixedFavorites)
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package com.camihruiz24.catbreeds.core.ui.theme
+package com.camihruiz24.catbreeds.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

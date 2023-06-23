@@ -36,5 +36,4 @@ object NetworkModule {
     fun provideCatBreedsApiClient(retrofit: Retrofit) : CatBreedsClient = retrofit.create(
         CatBreedsClient::class.java)
 
-
 }

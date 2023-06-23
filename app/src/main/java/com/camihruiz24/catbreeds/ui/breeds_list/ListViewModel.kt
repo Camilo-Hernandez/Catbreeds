@@ -28,13 +28,11 @@ class ListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                uiState = try {
-                    val catsList = catBreedsRepository.fetchCatBreeds()
-                    HomeUiState.Success(catBreedsList = catsList)
-                } catch (e: Exception) {
-                    HomeUiState.Error
-                }
+            uiState = try {
+                val catsList = catBreedsRepository.fetchCatBreeds()
+                HomeUiState.Success(catBreedsList = catsList)
+            } catch (e: Exception) {
+                HomeUiState.Error
             }
         }
     }

@@ -35,4 +35,5 @@ sealed class Route(
     object Detail : Route(baseRoute = "detail", listOf(NavigationArg.Id)){
         fun createNavRoute(itemId: String) = "$baseRoute?${NavigationArg.Id.key}=$itemId"
     }
+    object Favorites: Route(baseRoute = "favorites")
 }

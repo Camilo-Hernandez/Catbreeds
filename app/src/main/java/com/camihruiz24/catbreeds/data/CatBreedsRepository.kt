@@ -10,14 +10,11 @@ import javax.inject.Inject
  */
 
 class CatBreedsRepositoryImpl @Inject constructor(
-    private val catBreedsClient: CatBreedsClient,
-    ) : CatBreedsRepository {
-    override suspend fun fetchCatBreeds(): List<CatBreed> {
-        // TODO: Realizar una BD con Room donde cachear la respuesta y que la app funcione offline first
-        val catBreeds = catBreedsClient.getCatBreeds()
-        Log.i("Respuesta de la lista", "$catBreeds")
-        return catBreeds
-    }
+    private val catBreedsDataSource: CatBreedsDataSource,
+) : CatBreedsRepository {
+    override suspend fun fetchCatBreeds(): List<CatBreed> =
+        catBreedsDataSource.fetchCatBreeds()
+
 
     override suspend fun fetchCatBreedDetail(breedId: String): CatBreed {
         val catBreeds = this.fetchCatBreeds() // Se está haciendo de nuevo la consulta a la API
@@ -31,6 +28,6 @@ class CatBreedsRepositoryImpl @Inject constructor(
 }
 
 interface CatBreedsRepository {
-    suspend fun fetchCatBreeds() : List<CatBreed>
+    suspend fun fetchCatBreeds(): List<CatBreed>
     suspend fun fetchCatBreedDetail(breedId: String): CatBreed
 }
