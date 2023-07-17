@@ -1,7 +1,7 @@
 package com.camihruiz24.catbreeds.core
 
-import com.camihruiz24.catbreeds.data.CatBreedsDataSource
-import com.camihruiz24.catbreeds.data.CatBreedsDataSourceImpl
+import com.camihruiz24.catbreeds.data.ItemsDataSource
+import com.camihruiz24.catbreeds.data.ItemsDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ import javax.inject.Singleton
 abstract class DataSourceModule {
     @Binds
     @Singleton
-    abstract fun provideItemDataSource(impl: CatBreedsDataSourceImpl) : CatBreedsDataSource
+    abstract fun provideItemDataSource(impl: ItemsDataSourceImpl) : ItemsDataSource
 }

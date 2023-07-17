@@ -1,6 +1,8 @@
 package com.camihruiz24.catbreeds.data
 
-import android.util.Log
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
 /**
@@ -10,24 +12,36 @@ import javax.inject.Inject
  */
 
 class CatBreedsRepositoryImpl @Inject constructor(
-    private val catBreedsDataSource: CatBreedsDataSource,
+    itemsDataSource: ItemsDataSource,
 ) : CatBreedsRepository {
-    override suspend fun fetchCatBreeds(): List<CatBreed> =
-        catBreedsDataSource.fetchCatBreeds()
+    override val itemsData: Flow<List<ItemModel>> =
+        itemsDataSource.itemsData
+            .catch {
+                emit(
+                    listOf(
+                        element = ItemModel(
+                            id = "Error",
+                            name = "",
+                            description = "",
+                            imageId = null,
+                            origin = "",
+                            attributes = "",
+                        )
+                    )
+                )
+            }
 
-
-    override suspend fun fetchCatBreedDetail(breedId: String): CatBreed {
-        val catBreeds = this.fetchCatBreeds() // Se está haciendo de nuevo la consulta a la API
-        val catBreedDetail = catBreeds.find {
-            it.id == breedId
-        }
-        Log.i("Respuesta del detalle", "$catBreedDetail")
-        return catBreedDetail!!
-    }
-
+    override fun extractItemDetail(itemId: String): Flow<ItemModel> =
+        this.itemsData
+            // Se está haciendo de nuevo la consulta a la API
+            .mapNotNull { itemsList ->
+                itemsList.find { item ->
+                    item.id == itemId
+                }
+            }
 }
 
 interface CatBreedsRepository {
-    suspend fun fetchCatBreeds(): List<CatBreed>
-    suspend fun fetchCatBreedDetail(breedId: String): CatBreed
+    val itemsData: Flow<List<ItemModel>>
+    fun extractItemDetail(itemId: String): Flow<ItemModel>
 }

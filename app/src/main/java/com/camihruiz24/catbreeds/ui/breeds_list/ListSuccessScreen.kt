@@ -24,13 +24,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.camihruiz24.catbreeds.R
-import com.camihruiz24.catbreeds.data.CatBreed
+import com.camihruiz24.catbreeds.data.ItemModel
 
 @Composable
 fun ListSuccessScreen(
     modifier: Modifier = Modifier,
-    catBreedsList: List<CatBreed>,
-    onNavigateToDetail: (CatBreed) -> Unit,
+    itemsList: List<ItemModel>,
+    onNavigateToDetail: (ItemModel) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -38,24 +38,24 @@ fun ListSuccessScreen(
     ) {
         item {
             Text(
-                text = "CatBreeds",
-                style = MaterialTheme.typography.titleLarge,
+                text = stringResource(id = R.string.app_name),
+                style = MaterialTheme.typography.displayMedium,
                 modifier = modifier.padding(vertical = 8.dp)
             )
         }
-        items(catBreedsList) { catBreed ->
-            CatBreedCard(
-                catBreed = catBreed,
-                onNavigateToDetail = { onNavigateToDetail(catBreed) }
+        items(itemsList) { item ->
+            ItemCard(
+                itemModel = item,
+                onNavigateToDetail = { onNavigateToDetail(item) }
             )
         }
     }
 }
 
 @Composable
-fun CatBreedCard(
+fun ItemCard(
     modifier: Modifier = Modifier,
-    catBreed: CatBreed,
+    itemModel: ItemModel,
     onNavigateToDetail: () -> Unit,
 ) { // cat: Cat
     Card(
@@ -70,7 +70,7 @@ fun CatBreedCard(
         ) {
             Row {
                 Text(
-                    text = catBreed.name,
+                    text = itemModel.name,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.weight(2f)
                 )
@@ -81,35 +81,17 @@ fun CatBreedCard(
                     textAlign = TextAlign.End
                 )
             }
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    // TODO: Eliminar la cadena quemada. Investigar si con retrofit puedo manejar este link.
-                    .data(
-                        catBreed.imageId?.let {
-                            if (it.isNotEmpty()) "https://cdn2.thecatapi.com/images/${catBreed.imageId}.jpg"
-                            else R.mipmap.cat_icon
-                        }
-                    )
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.mipmap.cat_icon),
-                contentDescription = stringResource(R.string.cat_cover),
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(16.dp)
-                    .requiredSizeIn(minWidth = 400.dp, minHeight = 320.dp)
-            )
+            ItemImage(itemModel, Modifier.align(Alignment.CenterHorizontally))
             Row {
                 Text(
-                    text = "País de origen: ${catBreed.origin}",
+                    text = "País de origen: ${itemModel.origin}",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(2f)
                 )
                 Text(
-                    text = catBreed.attributes.split(", ").random(),
+                    text = itemModel.attributes.split(", ").random(),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(8.dp)
@@ -120,5 +102,24 @@ fun CatBreedCard(
             }
         }
     }
+}
+
+@Composable
+internal fun ItemImage(itemModel: ItemModel, modifier: Modifier) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            // TODO: Eliminar la cadena quemada. Investigar si con retrofit puedo manejar este link.
+            .data("https://cdn2.thecatapi.com/images/${itemModel.imageId}.jpg")
+            .crossfade(true)
+            .build(),
+        placeholder = painterResource(id = R.mipmap.cat_icon),
+        error = painterResource(id = R.mipmap.cat_icon),
+        fallback = painterResource(id = R.mipmap.cat_icon),
+        contentDescription = stringResource(R.string.cat_cover),
+        contentScale = ContentScale.Fit,
+        modifier = modifier
+            .padding(16.dp)
+            .requiredSizeIn(minWidth = 400.dp, minHeight = 320.dp)
+    )
 }
 

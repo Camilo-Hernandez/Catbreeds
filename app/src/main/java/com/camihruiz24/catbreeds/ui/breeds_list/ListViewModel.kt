@@ -1,39 +1,38 @@
 package com.camihruiz24.catbreeds.ui.breeds_list
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.camihruiz24.catbreeds.data.CatBreed
 import com.camihruiz24.catbreeds.data.CatBreedsRepository
+import com.camihruiz24.catbreeds.data.ItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-sealed interface HomeUiState { // TODO: mirar el <out T>
-    data class Success(val catBreedsList: List<CatBreed>) : HomeUiState
-    object Error : HomeUiState
-    object Loading : HomeUiState
+sealed interface ListUiState<out T> { // TODO: mirar el <out T>
+    data class Success<T>(val data: T) : ListUiState<T>
+    object Error : ListUiState<Nothing>
+    object Loading : ListUiState<Nothing>
 }
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
     catBreedsRepository: CatBreedsRepository,
 ) : ViewModel() {
-    var uiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
-        private set
 
-    init {
-        viewModelScope.launch {
-            uiState = try {
-                val catsList = catBreedsRepository.fetchCatBreeds()
-                HomeUiState.Success(catBreedsList = catsList)
-            } catch (e: Exception) {
-                HomeUiState.Error
-            }
+    var uiState: StateFlow<ListUiState<List<ItemModel>>> = catBreedsRepository.itemsData
+        .map {
+            ListUiState.Success(it)
         }
-    }
+        .catch {
+            ListUiState.Error
+        }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = ListUiState.Loading,
+            started = SharingStarted.WhileSubscribed(5_000)
+        )
 }

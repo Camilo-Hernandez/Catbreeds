@@ -2,7 +2,7 @@ package com.camihruiz24.catbreeds.data
 
 import com.google.gson.annotations.SerializedName
 
-data class CatBreed(
+data class ItemModel(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")
