@@ -11,9 +11,9 @@ import javax.inject.Inject
  * (enlace)
  */
 
-class CatBreedsRepositoryImpl @Inject constructor(
+class ItemsRepositoryImpl @Inject constructor(
     itemsDataSource: ItemsDataSource,
-) : CatBreedsRepository {
+) : ItemsRepository {
     override val itemsData: Flow<List<ItemModel>> =
         itemsDataSource.itemsData
             .catch {
@@ -41,7 +41,7 @@ class CatBreedsRepositoryImpl @Inject constructor(
             }
 }
 
-interface CatBreedsRepository {
+interface ItemsRepository {
     val itemsData: Flow<List<ItemModel>>
     fun extractItemDetail(itemId: String): Flow<ItemModel>
 }

@@ -1,7 +1,7 @@
 package com.camihruiz24.catbreeds.core
 
-import com.camihruiz24.catbreeds.data.CatBreedsRepository
-import com.camihruiz24.catbreeds.data.CatBreedsRepositoryImpl
+import com.camihruiz24.catbreeds.data.ItemsRepository
+import com.camihruiz24.catbreeds.data.ItemsRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,6 +16,6 @@ abstract class RepositoryModule {
     // Esto es útil para las pruebas, ya que podemos implementar la interfaz en una clase de prueba
     @Binds
     @Singleton
-    abstract fun bindCatsRepository(catBreedsRepositoryImpl: CatBreedsRepositoryImpl) : CatBreedsRepository
+    abstract fun bindItemsRepository(itemsRepositoryImpl: ItemsRepositoryImpl) : ItemsRepository
 
 }

@@ -2,7 +2,7 @@ package com.camihruiz24.catbreeds.ui.breeds_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.camihruiz24.catbreeds.data.CatBreedsRepository
+import com.camihruiz24.catbreeds.data.ItemsRepository
 import com.camihruiz24.catbreeds.data.ItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,10 +20,10 @@ sealed interface ListUiState<out T> { // TODO: mirar el <out T>
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    catBreedsRepository: CatBreedsRepository,
+    itemsRepository: ItemsRepository,
 ) : ViewModel() {
 
-    var uiState: StateFlow<ListUiState<List<ItemModel>>> = catBreedsRepository.itemsData
+    val uiState: StateFlow<ListUiState<List<ItemModel>>> = itemsRepository.itemsData
         .map {
             ListUiState.Success(it)
         }
